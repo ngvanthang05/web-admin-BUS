@@ -20,6 +20,14 @@ const roleColor: Record<string, string> = {
   Customer: 'bg-green-100 text-green-700',
 };
 
+const ROLE_LABELS: Record<string, string> = {
+  Admin: 'Quản trị viên',
+  Operations: 'Vận hành',
+  Staff: 'Nhân viên',
+  Driver: 'Tài xế',
+  Customer: 'Khách hàng',
+};
+
 export default function UsersPage() {
   const { showToast, ToastUI } = useToast();
   const [users, setUsers] = useState<any[]>([]);
@@ -139,7 +147,7 @@ export default function UsersPage() {
       await adminApi.changeUserRole(roleModal.userId, newRole);
       setUsers(prev => prev.map(x => x.userId === roleModal.userId ? { ...x, role: newRole } : x));
       setRoleModal(null);
-      showToast(`Đã đổi role @${roleModal.username} → ${newRole}!`);
+      showToast(`Đã đổi vai trò @${roleModal.username} → ${ROLE_LABELS[newRole] || newRole}!`);
     } catch (err: any) {
       showToast('Thất bại: ' + err.message, 'error');
     } finally {
@@ -210,7 +218,7 @@ export default function UsersPage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {ROLES.filter(r => r !== 'Customer').map(r => (
             <div key={r} className="bg-white rounded-xl border border-gray-200 p-3 shadow-sm text-center">
-              <p className="text-xs text-gray-500">{r}</p>
+              <p className="text-xs text-gray-500">{ROLE_LABELS[r] || r}</p>
               <p className="text-xl text-gray-800 mt-1" style={{ fontWeight: 700 }}>
                 {users.filter(u => u.role === r).length}
               </p>
@@ -236,7 +244,7 @@ export default function UsersPage() {
             className="px-3 py-2 text-sm border border-gray-200 rounded-lg bg-white text-gray-700 focus:outline-none"
           >
             <option value="">Tất cả vai trò</option>
-            {ROLES.map(r => <option key={r} value={r}>{r}</option>)}
+            {ROLES.map(r => <option key={r} value={r}>{ROLE_LABELS[r] || r}</option>)}
           </select>
           <button onClick={load} className="p-2 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 text-gray-500">
             <RefreshCw size={16} />
@@ -290,7 +298,7 @@ export default function UsersPage() {
                       <td className="px-4 py-3 text-gray-500">{u.email || '—'}</td>
                       <td className="px-4 py-3">
                         <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${roleColor[u.role] || 'bg-gray-100 text-gray-600'}`}>
-                          {u.role}
+                          {ROLE_LABELS[u.role] || u.role}
                         </span>
                       </td>
                       <td className="px-4 py-3">
@@ -391,7 +399,7 @@ export default function UsersPage() {
                 <BadgeCheck size={14} className="text-indigo-500 flex-shrink-0" />
                 <span className="text-gray-500">Vai trò:</span>
                 <span className={`ml-1 px-2 py-0.5 rounded-full text-xs font-medium ${roleColor[staffModal.user?.role] || 'bg-gray-100 text-gray-600'}`}>
-                  {staffModal.user?.role || '—'}
+                  {ROLE_LABELS[staffModal.user?.role] || staffModal.user?.role || '—'}
                 </span>
               </div>
               <div className="flex items-center gap-2 text-sm text-gray-700">
@@ -431,7 +439,7 @@ export default function UsersPage() {
                   <BadgeCheck size={14} className="text-indigo-500 flex-shrink-0" />
                   <span className="text-gray-500">Chức vụ:</span>
                   <span className="ml-1 px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-700 text-xs font-medium">
-                    {staffModal.staff.role || '—'}
+                    {ROLE_LABELS[staffModal.staff.role] || staffModal.staff.role || '—'}
                   </span>
                 </div>
                 {staffModal.staff.email && (
@@ -491,7 +499,7 @@ export default function UsersPage() {
                   onClick={() => setNewRole(r)}
                   className={`py-2.5 rounded-lg text-sm font-medium border transition-colors ${newRole === r ? 'bg-gray-800 text-white border-gray-800' : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'}`}
                 >
-                  {r}
+                  {ROLE_LABELS[r] || r}
                 </button>
               ))}
             </div>
@@ -655,7 +663,7 @@ export default function UsersPage() {
                           : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'
                         }`}
                     >
-                      {r}
+                      {ROLE_LABELS[r] || r}
                     </button>
                   ))}
                 </div>

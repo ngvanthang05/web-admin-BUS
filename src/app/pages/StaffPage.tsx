@@ -4,6 +4,17 @@ import { adminApi } from '../services/api';
 import { toast } from 'sonner';
 import { Plus, Pencil, Trash2, Search, UserCog, RefreshCw } from 'lucide-react';
 
+const ROLE_LABELS: Record<string, string> = {
+  Admin: 'Quản trị viên',
+  Operations: 'Vận hành',
+  Staff: 'Nhân viên',
+  Driver: 'Tài xế',
+  Customer: 'Khách hàng',
+  Manager: 'Quản trị viên',
+  Dispatcher: 'Vận hành',
+  Cashier: 'Nhân viên',
+};
+
 export default function StaffPage() {
   const navigate = useNavigate();
   const [staff, setStaff] = useState<any[]>([]);
@@ -200,7 +211,7 @@ export default function StaffPage() {
                     <td className="px-4 py-3 text-gray-600">{s.phone || s.Phone || '—'}</td>
                     <td className="px-4 py-3">
                       <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700">
-                        {s.role || s.Role || '—'}
+                        {ROLE_LABELS[s.role || s.Role] || s.role || s.Role || '—'}
                       </span>
                     </td>
                     <td className="px-4 py-3">

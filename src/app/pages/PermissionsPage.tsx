@@ -39,6 +39,14 @@ const roleColor: Record<string, string> = {
   Customer: 'bg-green-600 text-white',
 };
 
+const ROLE_LABELS: Record<string, string> = {
+  Admin: 'Quản trị viên',
+  Operations: 'Vận hành',
+  Staff: 'Nhân viên',
+  Driver: 'Tài xế',
+  Customer: 'Khách hàng',
+};
+
 const MOCK_USERS = [
   { userId: 1, username: 'admin', role: 'Admin', isActive: true, email: 'admin@busadmin.vn' },
   { userId: 2, username: 'operations01', role: 'Operations', isActive: true, email: 'ops@busadmin.vn' },
@@ -142,7 +150,7 @@ export default function PermissionsPage() {
                   </div>
                   <div className="flex items-center gap-1.5 mt-0.5">
                     <span className={`px-1.5 py-0.5 rounded text-xs font-medium ${roleColor[u.role] || 'bg-gray-200 text-gray-600'}`}>
-                      {u.role}
+                      {ROLE_LABELS[u.role] || u.role}
                     </span>
                     <span className="text-xs text-gray-400 truncate">{u.email}</span>
                   </div>
@@ -174,7 +182,7 @@ export default function PermissionsPage() {
                     <p className="text-gray-500 text-sm">{selected.email}</p>
                     <div className="flex items-center gap-2 mt-1">
                       <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${roleColor[selected.role] || 'bg-gray-200 text-gray-600'}`}>
-                        {selected.role}
+                        {ROLE_LABELS[selected.role] || selected.role}
                       </span>
                       <span className={`text-xs px-2 py-0.5 rounded-full ${selected.isActive !== false ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-600'}`}>
                         {selected.isActive !== false ? 'Hoạt động' : 'Ngừng hoạt động'}
@@ -201,7 +209,7 @@ export default function PermissionsPage() {
                           : 'bg-white text-gray-500 border-gray-200 hover:border-gray-300 hover:text-gray-700'
                       }`}
                     >
-                      {r}
+                      {ROLE_LABELS[r] || r}
                     </button>
                   ))}
                 </div>
@@ -209,7 +217,7 @@ export default function PermissionsPage() {
                   <div className="flex items-center gap-3 p-3 bg-amber-50 border border-amber-200 rounded-lg mb-4">
                     <AlertCircle size={14} className="text-amber-600 flex-shrink-0" />
                     <p className="text-xs text-amber-700">
-                      Thay đổi vai trò từ <strong>{selected.role}</strong> → <strong>{newRole}</strong>.
+                      Thay đổi vai trò từ <strong>{ROLE_LABELS[selected.role] || selected.role}</strong> → <strong>{ROLE_LABELS[newRole] || newRole}</strong>.
                       Người dùng sẽ chỉ có quyền truy cập theo vai trò mới.
                     </p>
                   </div>
@@ -227,7 +235,7 @@ export default function PermissionsPage() {
               {/* Current Permissions */}
               <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
                 <h3 className="text-gray-800 mb-4" style={{ fontWeight: 600 }}>
-                  Quyền hiện tại — Vai trò: {selected.role}
+                  Quyền hiện tại — Vai trò: {ROLE_LABELS[selected.role] || selected.role}
                 </h3>
                 <div className="space-y-2">
                   {(PORTAL_PERMISSIONS[selected.role] || []).map(perm => (

@@ -11,11 +11,15 @@ interface StaffFormData {
   password: string;
 }
 
-const ROLES = [
-  'Manager',
-  'Cashier',
-  'Dispatcher',
-];
+const ROLES = ['Admin', 'Operations', 'Staff', 'Driver', 'Customer'];
+
+const ROLE_LABELS: Record<string, string> = {
+  Admin: 'Quản trị viên',
+  Operations: 'Vận hành',
+  Staff: 'Nhân viên',
+  Driver: 'Tài xế',
+  Customer: 'Khách hàng',
+};
 
 export default function StaffForm() {
   const navigate = useNavigate();
@@ -153,7 +157,7 @@ export default function StaffForm() {
           >
             <option value="">-- Chọn vai trò --</option>
             {ROLES.map(r => (
-              <option key={r} value={r}>{r}</option>
+              <option key={r} value={r}>{ROLE_LABELS[r] || r}</option>
             ))}
           </select>
         </div>
