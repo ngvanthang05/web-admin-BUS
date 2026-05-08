@@ -1,6 +1,6 @@
 // API Service — kết nối Backend ASP.NET
-const BASE_URL = 'http://nvthang-bus-api.somee.com'; // Production (Somee)
-// const BASE_URL = 'http://localhost:5250'; // Local dev
+// Khi chạy local (DEV) thì trỏ thẳng tới somee, khi lên Vercel (PROD) thì dùng đường dẫn tương đối để Vercel Proxy xử lý
+const BASE_URL = import.meta.env.DEV ? 'http://nvthang-bus-api.somee.com' : '';
 
 function getToken(): string | null {
   return localStorage.getItem('admin_token');
